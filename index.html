@@ -1,0 +1,199 @@
+<html ng-app="vet">
+  <html lang="es">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <script type="text/javascript" src="bower_components\jquery\jquery.min.js"></script>
+      <script type="text/javascript" src="bower_components\moment\min\moment.min.js"></script>
+      <script type="text/javascript" src="bower_components\bootstrap-master\dist\js\bootstrap.min.js"></script>
+      <script type="text/javascript" src="bower_components\eonasdan-bootstrap-datetimepicker\build\js\bootstrap-datetimepicker.min.js"></script>
+      
+      <script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+      <script type="text/javascript" src="node_modules/angular-route/angular-route.min.js"></script>
+      <script type="text/javascript" src="node_modules/angular-resource/angular-resource.min.js"></script>
+      
+      <script type="text/javascript" src="app.js"></script>
+      
+      <script type="text/javascript" src="scripts/protractor.js"></script>
+      
+      <script src="i18n/angular-locale_de-de.js"></script>
+      <link rel="stylesheet" href="bower_components\bootstrap-master\dist\css\bootstrap.min.css">
+      <link rel="stylesheet" href="bower_components\eonasdan-bootstrap-datetimepicker\build\css\bootstrap-datetimepicker.min.css">
+      <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+      <link rel="stylesheet" href="layout.css">
+      <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>		
+    </head>
+    <body>
+      <div class="navbar navbar-default navbar-static-top" id="navBar">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><span>Veterinaria Denardo <i class="fa fa-lg text-primary fa-stethoscope"></i></span></a>
+          </div>
+          <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li class="">
+                <a href="#">Clientes <i class="fa fa-border fa-fw fa-group fa-lg pull-right"></i></a>
+              </li>
+              <li class="">
+                <a href="#">Pacientes<i class="fa fa-border fa-fw fa-heartbeat fa-lg pull-right"></i></a>
+              </li>
+              <li class="active">
+                <a href="#">Agenda <i class="fa fa-border fa-calendar fa-fw fa-lg pull-right"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8 text-right" id="barDate">
+              <ul class="nav nav-justified nav-pills">
+                <li class="active">
+                  <a href="#">Día</a>
+                </li>
+                <li>
+                  <a href="#">Semana</a>
+                </li>
+                <li>
+                  <a href="#">Mes</a>
+                </li>
+                <li>
+                  <a href="#"></a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-4 text-right">
+              <form role="form">
+                <div class="form-group">
+                  <div class="input-group input-group-sm" id="barSearch" >
+                    <input type="text" class="form-control" placeholder="Buscar Evento" ng-model="searchText">
+                    <span class="input-group-btn">
+                      <a class="btn btn-info" type="submit"><i class="fa fa-fw fa-search-plus"></i></a>
+                    </span>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12" ng-controller="DatepickerDemoCtrl">
+              <h3 class="text-left"> {{dt | date:'fullDate' }}
+              </h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <div class="row" id="panel">
+                <div class="row text-center">
+                  <h4 class="text-center text-primary">08:00AM 12:00AM</h4>
+                  <div class="col-md-12" ng-controller="VetController" >
+                    
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Direccion&nbsp;</th>
+                          <th>Cliente&nbsp;</th>
+                          <th>Motivo</th>
+                          <th>Deuda</th>
+                          <th>Observacion</th>
+                        </tr>
+                      </thead>
+                      <tbody ng-repeat="event in events |filter:searchText">
+                        
+                        <tr ng-class="{'danger' : hruta.deuda > 0 }">
+                          <td> {{$index + 1}} </td>
+                          <td> {{event.Event.motivo}} </td>
+                       
+                        </tr>
+                      </tbody>
+                    </table>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="container-fluid">
+            <div class="row">
+            <div class="col-md-4">
+              <form class="form-horizontal text-justify" role="form" id="formInput" name="addHruta" ng-controller="VetController as vet"  ng-submit="vet.addHruta(hrutas)">
+                <div class="form-group">
+                  <div class="col-md-3  col-md-offset-1">
+                    <label for="inputEmail3" class="control-label">Fecha</label>
+                  </div>
+                  <div class="col-md-7" ng-controller="DatepickerDemoCtrl">
+                    <input type="date" class="form-control" datepicker-popup ng-model="fecha" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                  </p>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-3  col-md-offset-1">
+                  <label for="direccion" class="control-label">Dir./Nro.</label>
+                </div>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" id="direccion" placeholder="Direccion" ng-model="hrutas.direccion">
+                </div>
+                <div class="col-md-3">
+                  <input type="text" class="form-control" id="nro" placeholder="Nro" ng-model="hrutas.nro">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-3  col-md-offset-1">
+                  <label for="Barrio" class="control-label">Barrio</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="text" class="form-control" id="barrio" placeholder="Barrio" ng-model="hrutas.barrio">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-3  col-md-offset-1">
+                  <label for="motivo" class="control-label">Motivo</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="text" class="form-control" id="Motivo" placeholder="Motivo" ng-model="hrutas.motivo">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-3  col-md-offset-1">
+                  <label for="deuda" class="control-label">Deuda</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="text" class="form-control" id="deuda" placeholder="deuda" ng-model="hrutas.deuda">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-3  col-md-offset-1">
+                  <label for="observacion" class="control-label">Observacion</label>
+                </div>
+                <div class="col-md-7">
+                  <textarea class="form-control" rows="3" id="observaciones" placeholder="observacion" ng-model="hrutas.observacion"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-8  col-md-offset-2">
+                  <button type="submit" class="btn btn-block btn-primary">Agendar
+                  <i class="fa fa-fw fa-calendar"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="section section-primary">
+      <h4 class="text-center">Soft. Clinica veterinaria Denardo
+      <small>&nbsp;Versión 1.0</small>
+      </h4>
+    </footer>
+  </body></html>
